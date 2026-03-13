@@ -1,0 +1,2 @@
+# WakeWord
+AIｽﾀｯｸﾁｬﾝのWakeWordをSPRESENSEに移植

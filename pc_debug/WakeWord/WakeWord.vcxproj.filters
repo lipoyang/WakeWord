@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\simplevox">
+      <UniqueIdentifier>{79892029-a8f7-4e97-b952-45ee8f966185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\simplevox">
+      <UniqueIdentifier>{e2ea11b1-c27b-4dee-8ac3-d2fcd2801964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\kiss_fft">
+      <UniqueIdentifier>{136628e3-cf2e-4cf8-a497-03afa6b644b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\kiss_fft">
+      <UniqueIdentifier>{dff08b5c-d5e7-4167-a65b-b71aea1e23f5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\WakeWord.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\SimpleVox\src\utility\simplevox_dtw.cpp">
+      <Filter>ソース ファイル\simplevox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\SimpleVox\src\utility\simplevox_mfcc.cpp">
+      <Filter>ソース ファイル\simplevox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\SimpleVox\src\utility\simplevox_vad.cpp">
+      <Filter>ソース ファイル\simplevox</Filter>
+    </ClCompile>
+    <ClCompile Include="kiss_fft\kiss_fft.c">
+      <Filter>ソース ファイル\kiss_fft</Filter>
+    </ClCompile>
+    <ClCompile Include="kiss_fft\kiss_fftr.c">
+      <Filter>ソース ファイル\kiss_fft</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\lib\SimpleVox\src\utility\SimpleVAD.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\NoiseSuppressor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\WakeWord.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\SimpleVox\src\simplevox.h">
+      <Filter>ヘッダー ファイル\simplevox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\SimpleVox\src\utility\simplevox_dtw.h">
+      <Filter>ヘッダー ファイル\simplevox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\SimpleVox\src\utility\detail\simplevox_dtw.h">
+      <Filter>ヘッダー ファイル\simplevox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\SimpleVox\src\utility\simplevox_feature.h">
+      <Filter>ヘッダー ファイル\simplevox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\SimpleVox\src\utility\simplevox_mfcc.h">
+      <Filter>ヘッダー ファイル\simplevox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\SimpleVox\src\utility\simplevox_vad.h">
+      <Filter>ヘッダー ファイル\simplevox</Filter>
+    </ClInclude>
+    <ClInclude Include="kiss_fft\_kiss_fft_guts.h">
+      <Filter>ヘッダー ファイル\kiss_fft</Filter>
+    </ClInclude>
+    <ClInclude Include="kiss_fft\kiss_fft.h">
+      <Filter>ヘッダー ファイル\kiss_fft</Filter>
+    </ClInclude>
+    <ClInclude Include="kiss_fft\kiss_fft_log.h">
+      <Filter>ヘッダー ファイル\kiss_fft</Filter>
+    </ClInclude>
+    <ClInclude Include="kiss_fft\kiss_fftr.h">
+      <Filter>ヘッダー ファイル\kiss_fft</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

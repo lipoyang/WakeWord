@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="WakeWord/WakeWord.vcxproj" Id="46f5638c-45fe-48b3-a898-49c6c3d97f17" />
+</Solution>

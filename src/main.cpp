@@ -43,23 +43,30 @@ int regist()
         frameNo++;
 
         if (n < 160) {
-            printf("end of file!");
+            printf("end of file!\n");
             break;
         } else {
             // ウェイクワード登録処理
-            wakeword_regist();
+            bool ret = wakeword_regist();
+            if (ret == true) {
+                printf("Completed! frameNo = %d\n", frameNo);
+                break;
+            }
         }
     }
+    printf("\n");
     fclose(wavefile);
 
     return 0;
 }
 
 // ウェイクワード比較
-int compare()
+int compare(int c)
 {
     // WAVファイル
-    FILE* wavefile = fopen("/mnt/sd0/test2.wav", "rb");
+    char filename[16];
+    sprintf(filename, "/mnt/sd0/test%d.wav", c);
+    FILE* wavefile = fopen(filename, "rb");
     if (!wavefile) {
         perror("fopen in compare() failed");
         return -1;
@@ -80,13 +87,18 @@ int compare()
         frameNo++;
 
         if (n < 160) {
-            printf("end of file!");
+            printf("end of file!\n");
             break;
         } else {
             // ウェイクワード比較処理
-            wakeword_compare();
+            bool ret = wakeword_compare();
+            if (ret == true) {
+                printf("Completed! frameNo = %d\n", frameNo);
+                break;
+            }
         }
     }
+    printf("\n");
     fclose(wavefile);
 
     return 0;
@@ -104,8 +116,8 @@ void setup()
 
 void loop(void)
 {
-    printf("Please Input 1 or 2\n");
-    printf("1:Regist Wake Word / 2:Compare Wake Word\n");
+    printf("Please Input 0 - 3 or Q.\n");
+    printf("0:Regist Wake Word / 1-3:Compare Wake Word\n");
     char c = 0;
     while (1) {
         if(Serial.available() > 0){
@@ -114,19 +126,20 @@ void loop(void)
           break;
         }
     }
+    c = buf[0] - '0';
 
-    // 1 : ウェイクワード登録
-    if (c == '1') {
+    // 0 : ウェイクワード登録
+    if (c == 0) {
         printf("Regist Wake Word\n");
         int ret = regist();
         if(ret != 0) {
             printf("Failed to regist wake word. (%d)\n", ret);
         }
     }
-    // 2 : ウェイクワード比較
-    else if (c == '2') {
-        printf("Compare Wake Word\n");
-        int ret = compare();
+    // 1-3 : ウェイクワード比較
+    else if (c == 1 || c == 2 || c == 3) {
+        printf("Compare Wake Word (%d)\n", c);
+        int ret = compare(c);
         if (ret != 0) {
             printf("Failed to compare wake word.(%d)\n", ret);
         }

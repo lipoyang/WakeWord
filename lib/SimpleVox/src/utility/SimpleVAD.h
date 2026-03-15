@@ -20,8 +20,8 @@ public:
 	// level : 0〜4 のレベル (高いほど判定が厳しい)
 	SimpleVAD(int level)
     {
-        this->ampTreshold = 1000 * (level + 1);
-        this->fh = 4000;
+        this->ampTreshold = 100 * (level + 1);
+        this->fh = 5000;
 		this->fl = 200;
 
         this->amp = 0;

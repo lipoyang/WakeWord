@@ -20,6 +20,10 @@
 
 #include "SimpleVAD.h"
 
+#ifdef WAV_FILE_DEBUG
+extern int frameNo; // デバッグ用
+#endif
+
 namespace
 {
     int DivCeil(int dividend, int divisor)
@@ -104,6 +108,9 @@ namespace simplevox
         const int frame_length = config.frame_length();
 
         state_count_++;
+        if (state_count_ > 1) {
+            printf("%d : %d : %d\n", frameNo, state_count_, frame_count_);
+        }
         const int state_length = frame_length * state_count_;
         const bool IsSpeech = (has_satisfied_hangbefore_)
                             ? ((SimpleVAD*)vad_inst_)->process((int16_t*)data, config.sample_rate, config.frame_time_ms)
@@ -115,11 +122,13 @@ namespace simplevox
             {
                 state_count_ = 0;
                 vad_state_ = VadState::Setup;
+                printf("To Setup : %d\n", frameNo);
             }
             break;
         case VadState::Setup:
             state_count_ = 0;
             vad_state_ = VadState::Silence;
+            printf("To Silence : %d\n", frameNo);
             break;
         case VadState::Silence:
             if (!has_satisfied_hangbefore_)
@@ -128,6 +137,7 @@ namespace simplevox
                 if (state_length >= config.before_length())
                 {
                     has_satisfied_hangbefore_ = true;
+                    printf("satisfied hangbefore : %d\n", frameNo);
                 }
                 break;
             }
@@ -137,6 +147,7 @@ namespace simplevox
                 state_count_ = 0;
                 frame_count_++;
                 vad_state_ = VadState::PreDetection;
+                printf("To PreDetection : %d\n", frameNo);
             }
             break;
         case VadState::PreDetection:
@@ -148,6 +159,7 @@ namespace simplevox
                 {
                     state_count_ = 0;
                     vad_state_ = VadState::Speech;
+                    printf("To Speech : %d\n", frameNo);
                 }
             }
             else
@@ -155,6 +167,7 @@ namespace simplevox
                 frame_count_ -= state_count_;
                 state_count_ = 0;
                 vad_state_ = VadState::Silence;
+                printf("To Silence : %d\n", frameNo);
             }
             break;
         case VadState::Speech:
@@ -163,6 +176,7 @@ namespace simplevox
             {
                 state_count_ = 0;
                 vad_state_ = VadState::PostDetection;
+                printf("To PostDetection : %d\n", frameNo);
             }
             break;
         case VadState::PostDetection:
@@ -171,6 +185,7 @@ namespace simplevox
             {
                 state_count_ = 0;
                 vad_state_ = VadState::Speech;
+                printf("To Speech : %d\n", frameNo);
             }
             else
             {
@@ -179,6 +194,7 @@ namespace simplevox
                 {
                     state_count_ = 0;
                     vad_state_ = VadState::Detected;
+                    printf("To Detected : %d\n", frameNo);
                 }
             }
             break;
@@ -189,6 +205,7 @@ namespace simplevox
             state_count_ = 0;
             frame_count_ = 0;
             vad_state_ = VadState::Warmup;
+            printf("To Warmup : %d\n", frameNo);
             break;
         }
         return vad_state_;

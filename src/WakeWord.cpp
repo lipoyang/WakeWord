@@ -24,8 +24,9 @@ void delay(int n)
 #define base_path "/mnt/sd0"
 #endif
 #define file_name "/wakeword.bin"
-
+#ifdef WAV_FILE_DEBUG
 extern int frameNo; // デバッグ用
+#endif
 
 constexpr int kSampleRate = 16000;
 constexpr int audioLength = kSampleRate * 3;  // 3 seconds
@@ -133,6 +134,7 @@ float* feature_get(int number) { return &features[number * mfccCoefNum]; }
 void wakeword_init(){
   auto vadConfig = vadEngine.config();
   vadConfig.sample_rate = kSampleRate;
+  vadConfig.decision_time_ms = 50; // 50msec by B.Nishimura
   auto mfccConfig = mfccEngine.config();
   mfccConfig.sample_rate = kSampleRate;
 
@@ -174,7 +176,9 @@ bool wakeword_regist() // MFCCを登録及びファイルに保存します
 
   int length = vadEngine.detect(rawAudio, audioLength, data);
   if (length <= 0) { return ret; }
+#ifdef WAV_FILE_DEBUG
   printf("Detected! length=%d, frameNo=%d\n", length, frameNo);
+#endif
 
   if (mfcc != nullptr){ delete mfcc; }
   mfcc = mfccEngine.create(rawAudio, length);
@@ -229,7 +233,9 @@ bool wakeword_compare()
   if (state == simplevox::VadState::Detected
       || (state >= simplevox::VadState::Speech && mfccFrameNum <= mfccFrameCount))
   {
-	printf("Comparing... frameCount=%d, frameNo=%d\n", mfccFrameCount, frameNo);
+#ifdef WAV_FILE_DEBUG
+    printf("Comparing... frameCount=%d, frameNo=%d\n", mfccFrameCount, frameNo);
+#endif
     std::unique_ptr<simplevox::MfccFeature> feature(mfccEngine.create(features, mfccFrameCount, mfccCoefNum));
     const auto dist = simplevox::calcDTW(*mfcc, *feature);
 

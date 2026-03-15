@@ -160,9 +160,13 @@ void wakeword_init(){
 
   if (stat(base_path file_name, &st) == 0) {
     if ((st.st_mode & S_IFMT) == S_IFREG) {
-      puts("File exists !!");
+      puts("wakeword.bin exists.");
       mfcc = mfccEngine.loadFile(base_path file_name);
+    }else{
+      puts("wakeword.bin is not a normal file!");
     }
+  }else{
+    puts("wakeword.bin not found.");
   }
 }
 

@@ -3,8 +3,12 @@
  ****************************************/
 
 #include <Arduino.h>
+#include <SDHCI.h>
 #include "WakeWord.h"
 #include "NoiseSuppressor.h"
+
+// SDカード
+SDClass SD;
 
 // 音声バッファ (10msecぶん)
 int16_t rxbuff[160];
@@ -114,13 +118,19 @@ void setup()
     while (!Serial);
     Serial.println("Hello!");
 
+    while (!SD.begin()) {
+        Serial.print(".");
+        delay(500);
+    }
+    Serial.println("");
+
     // ウェイクワード初期化
     wakeword_init();
 }
 
 void loop(void)
 {
-    printf("Please Input 0 - 3 or Q.\n");
+    printf("Please Input 0 - 3.\n");
     printf("0:Regist Wake Word / 1-3:Compare Wake Word\n");
     char c = 0;
     while (1) {

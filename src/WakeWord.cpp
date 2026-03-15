@@ -177,7 +177,10 @@ bool wakeword_regist() // MFCCを登録及びファイルに保存します
   int length = vadEngine.detect(rawAudio, audioLength, data);
   if (length <= 0) { return ret; }
 #ifdef WAV_FILE_DEBUG
-  printf("Detected! length=%d, frameNo=%d\n", length, frameNo);
+  float t_end = (float)frameNo * 0.01f;
+  float t_len = (float)length * 0.01f / 160.0f;
+  float t_begin = t_end - t_len;
+  printf("Detected! %.2f - %.2f sec (len = %.2f sec)\n", t_begin, t_end, t_len);
 #endif
 
   if (mfcc != nullptr){ delete mfcc; }
@@ -234,7 +237,8 @@ bool wakeword_compare()
       || (state >= simplevox::VadState::Speech && mfccFrameNum <= mfccFrameCount))
   {
 #ifdef WAV_FILE_DEBUG
-    printf("Comparing... frameCount=%d, frameNo=%d\n", mfccFrameCount, frameNo);
+      float t_end = (float)frameNo * 0.01f;
+      printf("Comparing... %.2f sec\n", t_end);
 #endif
     std::unique_ptr<simplevox::MfccFeature> feature(mfccEngine.create(features, mfccFrameCount, mfccCoefNum));
     const auto dist = simplevox::calcDTW(*mfcc, *feature);

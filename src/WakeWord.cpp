@@ -25,7 +25,7 @@ void delay(int n)
 #define base_path "/mnt/sd0"
 #endif
 #define file_name "/wakeword.bin"
-#ifdef WAV_FILE_DEBUG
+#if defined(WAV_FILE_DEBUG) || defined(MIC_DEBUG)
 extern int frameNo; // デバッグ用
 #endif
 
@@ -186,7 +186,7 @@ bool wakeword_regist() // MFCCを登録及びファイルに保存します
 
   int length = vadEngine.detect(rawAudio, audioLength, data);
   if (length <= 0) { return ret; }
-#ifdef WAV_FILE_DEBUG
+#if defined(WAV_FILE_DEBUG) || defined(MIC_DEBUG)
   float t_end = (float)frameNo * 0.01f;
   float t_len = (float)length * 0.01f / 160.0f;
   float t_begin = t_end - t_len;
@@ -246,7 +246,7 @@ bool wakeword_compare()
   if (state == simplevox::VadState::Detected
       || (state >= simplevox::VadState::Speech && mfccFrameNum <= mfccFrameCount))
   {
-#ifdef WAV_FILE_DEBUG
+#if defined(WAV_FILE_DEBUG) || defined(MIC_DEBUG)
       float t_end = (float)frameNo * 0.01f;
       printf("Comparing... %.2f sec\n", t_end);
 #endif

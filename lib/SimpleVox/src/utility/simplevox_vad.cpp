@@ -20,7 +20,7 @@
 
 #include "SimpleVAD.h"
 
-#ifdef WAV_FILE_DEBUG
+#if defined(WAV_FILE_DEBUG) || defined(MIC_DEBUG)
 extern int frameNo;
 #define DEBUG_PRINTF(fmt, ...) printf(fmt, __VA_ARGS__)
 #else 

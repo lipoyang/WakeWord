@@ -15,6 +15,9 @@ SDClass SD;
 // オーディオ
 AudioClass *theAudio;
 
+// フレーム番号 (デバッグ用)
+int frameNo;
+
 // オーディオの警告コールバック
 static void audio_attention_cb(const ErrorAttentionParam *atprm)
 {
@@ -42,6 +45,7 @@ bool mic_record(int16_t* rec_data, size_t array_len)
         }
         filled += read_size;
     }
+    frameNo++; // デバッグ用
     return true; 
 }
 
@@ -90,12 +94,14 @@ void loop(void)
             printf("Regist Wake Word\n");
             theAudio->startRecorder();
             state = 1;
+            frameNo = 0;
         }
         // 2 : ウェイクワード比較
         else if (c == 2) {
             printf("Compare Wake Word\n");
             theAudio->startRecorder();
             state = 2;
+            frameNo = 0;
         }
         else {
             printf("Wrong Command!\n");

@@ -1,5 +1,3 @@
-//#define PC_DEBUG // PC上でのデバッグ用
-
 #ifndef PC_DEBUG
 #include <Arduino.h>
 #include <MP.h>

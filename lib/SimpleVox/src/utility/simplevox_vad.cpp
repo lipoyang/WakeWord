@@ -131,7 +131,7 @@ namespace simplevox
         case VadState::Setup:
             state_count_ = 0;
             vad_state_ = VadState::Silence;
-            printf("To Silence : %d\n", frameNo);
+            DEBUG_PRINTF("To Silence : %d\n", frameNo);
             break;
         case VadState::Silence:
             if (!has_satisfied_hangbefore_)

@@ -3,9 +3,14 @@
 #else
 
 #include <Arduino.h>
+
+#include <SDHCI.h>
 #include <Audio.h>
 #include "WakeWord.h"
 #include "NoiseSuppressor.h"
+
+// SDカード
+SDClass SD;
 
 // オーディオ
 AudioClass *theAudio;
@@ -46,24 +51,29 @@ void setup()
     while (!Serial);
     Serial.println("Hello!");
 
+    while (!SD.begin()) {
+        Serial.print(".");
+        delay(500);
+    }
+
     // オーディオ初期化
     theAudio = AudioClass::getInstance();
     theAudio->begin(audio_attention_cb);
     theAudio->setRecorderMode(AS_SETRECDR_STS_INPUTDEVICE_MIC, 210); // gain +21.0dB (max)
     theAudio->initRecorder(AS_CODECTYPE_PCM, "/mnt/sd0/BIN", AS_SAMPLINGRATE_16000, AS_BITLENGTH_16, AS_CHANNEL_MONO);
-    theAudio->startRecorder();
+    // theAudio->startRecorder();
 
     // ウェイクワード初期化
     wakeword_init();
 }
 
-// 0:コマンド待ち 1:ウェイクワード登録 2:ウェイクワード比較
+// 状態: 0:コマンド待ち 1:ウェイクワード登録 2:ウェイクワード比較
 int state = 0;
 
 void loop(void)
 {
     if(state == 0){
-        printf("Please Input 1 - 2 or Q.\n");
+        printf("Please Input 1 or 2\n");
         printf("1:Regist Wake Word / 2:Compare Wake Word\n");
         char c = 0;
         while (1) {
@@ -78,11 +88,13 @@ void loop(void)
         // 1 : ウェイクワード登録
         if (c == 1) {
             printf("Regist Wake Word\n");
+            theAudio->startRecorder();
             state = 1;
         }
         // 2 : ウェイクワード比較
         else if (c == 2) {
             printf("Compare Wake Word\n");
+            theAudio->startRecorder();
             state = 2;
         }
         else {
@@ -95,6 +107,7 @@ void loop(void)
             char c = Serial.read();
             if(c == 'q' || c == 'Q')
             {
+                theAudio->stopRecorder();
                 printf("Quit!\n");
                 state = 0;
             }
@@ -103,6 +116,7 @@ void loop(void)
         if (state == 1) {
             bool ret = wakeword_regist();
             if (ret == true) {
+                theAudio->stopRecorder();
                 printf("Regist Completed!\n\n");
                 state = 0;
             }
@@ -111,6 +125,7 @@ void loop(void)
         else if (state == 2) {
             bool ret = wakeword_compare();
             if (ret == true) {
+                theAudio->stopRecorder();
                 printf("Compare Completed!\n\n");
                 state = 0;
             }

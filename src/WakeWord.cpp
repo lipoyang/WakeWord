@@ -2,6 +2,7 @@
 
 #ifndef PC_DEBUG
 #include <Arduino.h>
+#include <MP.h>
 #endif
 #include <algorithm> // copy_n
 #include <memory>
@@ -138,7 +139,12 @@ void wakeword_init(){
   auto mfccConfig = mfccEngine.config();
   mfccConfig.sample_rate = kSampleRate;
 
+#ifdef PC_DEBUG
   rawAudio = (int16_t*)malloc(audioLength * sizeof(*rawAudio));
+#else
+  // バッファがデカすぎ(96kB) MP.AllocSharedMemoryで確保
+  rawAudio = (int16_t *)MP.AllocSharedMemory(audioLength * sizeof(*rawAudio));
+#endif
   rxBuffer = (int16_t*)malloc(kRxBufferNum * vadConfig.frame_length() * sizeof(*rxBuffer));
   
   raw_init(mfccConfig.frame_length() + vadConfig.frame_length());

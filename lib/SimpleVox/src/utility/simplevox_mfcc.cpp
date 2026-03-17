@@ -256,6 +256,7 @@ namespace simplevox
         arm_status status = arm_rfft_fast_init_f32(&S, config.fft_num);
         if (status != ARM_MATH_SUCCESS) {
             printf("DSP init error\n");
+            release();
             return false;
         }
 #endif

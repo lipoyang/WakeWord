@@ -1,3 +1,8 @@
+/*
+ * Ported to SPRESENSE from ESP32
+ * by Bizan Nishimura
+ */
+
 #ifndef PC_DEBUG
 #include <Arduino.h>
 #include <MP.h>
